@@ -1,0 +1,3 @@
+Also, you need to have sample text documents on the student’s assignments which we gonna use in testing our model.
+
+The text files need to be in the same directory with your script with an extension of .txt, If you wanna use sample textfiles I used for this tutorial
