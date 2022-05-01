@@ -12,33 +12,6 @@ router.get("/", (req, res) => {
   res.send(`Hello from the auth router`);
 });
 
-// router.post("/register", (req, res) => {
-//   const { name, email, roll_no, password, cpassword } = req.body;
-
-//   if (!name || !email || !roll_no || !password || !cpassword) {
-//     return res.status(422).json({ error: "Please fill the data correctly" });
-//   }
-
-//   User.findOne({ email: email }).then((userExist) => {
-//     if (userExist) {
-//       return res.status(422).json({ error: "Email already exists!" });
-//     }
-
-//     const user = new User({ name, email, roll_no, password, cpassword });
-//     user
-//       .save()
-//       .then(() => {
-//         res.status(201).json({ message: "User saved successfully!" });
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: "User cannot be saved. Try Again!" });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   });
-// });
-
 //using async and await
 router.post("/register", async (req, res) => {
   const { name, email, roll_no, password, cpassword, role } = req.body;
@@ -101,7 +74,7 @@ router.post("/login", async (req, res) => {
             message: "Success",
             role: userLogin.role,
             email: userLogin.email,
-            roll_no: userLogin.roll_no
+            roll_no: userLogin.roll_no,
           });
       }
     } else {
@@ -201,7 +174,9 @@ router.post("/joinclass", Authenticate, async (req, res) => {
           { code: code },
           { student_emails: [...classExist.student_emails, { email: email }] }
         );
-        return res.status(200).json({ message: "Class Joined Successfully!", class: classExist });
+        return res
+          .status(200)
+          .json({ message: "Class Joined Successfully!", class: classExist });
       }
     } else {
       res.status(422).json({ message: "Class does not exist" });
@@ -239,76 +214,94 @@ module.exports = router;
 // })
 router.post("/createassign", async (req, res) => {
   const { questionNumber, question, code } = req.body;
-  console.log('221', req.body);
+  console.log("221", req.body);
 
   if (!question || !questionNumber) {
-    console.log('214');
+    console.log("214");
     return res.status(422).json({ error: "Please fill the data correctly" });
   }
   try {
     const classCode = await userClass.findOne({ code: code });
-    console.log(classCode)
-    classCode.assignments.push({ question: question, questionNumber: questionNumber });
-    await userClass.findOneAndUpdate({ code: code }, { assignments: classCode.assignments });
-    res.status(200).json({ message: "success", assignment: { question: question, questionNumber: questionNumber } });
-    //   return res.status(422).json({ error: "Assign Exist already exists!" });
-    // } else {
-    //   const uclass = await userClass.findOne({ code:code});
-    //   var ass={ question: question, questionNumber: questionNumber };
-    //   uclass.assignments.push(ass)
-    //   await uclass.save();
-    //   res.status(201).json({ message: "Hello", class: temp });
+    console.log(classCode);
+    classCode.assignments.push({
+      question: question,
+      questionNumber: questionNumber,
+    });
+    await userClass.findOneAndUpdate(
+      { code: code },
+      { assignments: classCode.assignments }
+    );
+    res.status(200).json({
+      message: "success",
+      assignment: { question: question, questionNumber: questionNumber },
+    });
   } catch (err) {
     return res.status(422).json({ error: "error" });
     console.log(err);
   }
 });
 router.post("/assignmentdetails", Authenticate, (req, res) => {
-  userClass.find({ code: req.body.code }, { assignments: 1, _id: 0 }, (error, data) => {
-    if (error) console.log(error);
-    else {
-      res.status(200).send({ assignmentList: data[0].assignments });
+  userClass.find(
+    { code: req.body.code },
+    { assignments: 1, _id: 0 },
+    (error, data) => {
+      if (error) console.log(error);
+      else {
+        res.status(200).send({ assignmentList: data[0].assignments });
+      }
     }
-  });
+  );
 });
 router.post("/submitsoln", Authenticate, async (req, res) => {
   const { fname, solution, code, questionNumber } = req.body;
-  console.log('221', req.body, req.rootUser);
-  let message=""
+  console.log("221", req.body, req.rootUser);
+  let message = "";
   const classCode = await userClass.findOne({ code: code });
   console.log(classCode);
   classCode.assignments.forEach((assignment, i) => {
     if (assignment.questionNumber == questionNumber) {
       assignment.solutions.forEach((solution, j) => {
         if (solution.roll_no == req.rootUser.roll_no)
-            message="Already exists" 
-      })
+          message = "Already exists";
+      });
 
-      classCode.assignments[i].solutions.push({ roll_no: req.rootUser.roll_no, fname, solution })
+      classCode.assignments[i].solutions.push({
+        roll_no: req.rootUser.roll_no,
+        fname,
+        solution,
+      });
     }
-  })
-  if(message!="Already exists"){
-    await userClass.findOneAndUpdate({ code: code }, { assignments: classCode.assignments })
-    message="successful"}
+  });
+  if (message != "Already exists") {
+    await userClass.findOneAndUpdate(
+      { code: code },
+      { assignments: classCode.assignments }
+    );
+    message = "successful";
+  }
 
-  res.json({ message})
+  res.json({ message });
 });
 router.post("/solutiondetails", async (req, res) => {
   const { code, questionNumber } = req.body;
-  console.log('236', req.body);
+  console.log("236", req.body);
   const classCode = await userClass.findOne({ code: code });
   // console.log(classCode);
   // return res.json({message: "successful"})
   classCode.assignments.forEach((assignment, i) => {
-    if (assignment.questionNumber == "Q1") {
-      console.log(298, assignment.solutions, assignment.questionNumber == questionNumber)
-      return res.json({ solutions: assignment.solutions })
+    if (assignment.questionNumber == questionNumber) {
+      console.log(
+        298,
+        assignment.solutions,
+        assignment.questionNumber == questionNumber
+      );
+      return res.json({ solutions: assignment.solutions });
     }
-  })
-});     
+  });
+});
 router.post("/deleteclass", async (req, res) => {
-  const { code} = req.body;
-  console.log('236', req.body);
+  const { code } = req.body;
+  console.log("236", req.body);
   const classCode = await userClass.findOneAndDelete({ code: code });
-  res.json({message:" successfully deleted"})
-});     
+  res.json({ message: " successfully deleted" });
+});

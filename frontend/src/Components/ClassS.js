@@ -1,7 +1,7 @@
 import React from "react";
 import CardS from "./CardS";
 import "../Css/cards.css";
-import classes from "./Class";
+
 // import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 const ClassS = (props) => {
@@ -72,13 +72,13 @@ const ClassS = (props) => {
   return (
     <>
       <div className="classT-btn">
-        {/* <button className="join" onClick={() => setSubmit(true)}>Join</button> */}
+       
 
-        <button class="join" onClick={() => setSubmit(true)}>
-          <span class="circle" aria-hidden="true">
-            <span class="icon arrow"></span>
+        <button className="join" onClick={() => setSubmit(true)}>
+          <span className="circle" aria-hidden="true">
+            <span className="icon arrow"></span>
           </span>
-          <span class="button-text">Join Class</span>
+          <span className="button-text">Join Class</span>
         </button>
       </div>
       {submit && (

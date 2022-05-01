@@ -15,7 +15,7 @@ const Register = () => {
     roll_no: "",
     password: "",
     cpassword: "",
-    role:"student",
+    role:"",
   });
   let n, value;
   const handleInputs = (e) => {
@@ -122,7 +122,7 @@ const Register = () => {
                 <RadioGroup
                   onChange={handleInputs}
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="student"
+                  defaultValue=""
                   name="role"
                 >
                   <FormControlLabel

@@ -43,7 +43,7 @@ const ClassT = (props) => {
     const data = await res.json();
     console.log(data);
     if (res.status === 422 || !data) {
-      window.alert("Fill data correclty / Class already exists");
+      window.alert("Fill data correctly / Class already exists");
     } else {
       window.alert("Successful");
       setUserClass((prev) => {
@@ -88,7 +88,7 @@ const ClassT = (props) => {
           onClick={() => {
             setSubmit(true);
           }}
-          class="cssbuttons-io-button"
+          className="cssbuttons-io-button"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -1,12 +1,13 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import "../Css/teacherthird.css";
+import axios from "axios";
 const TeacherThird = () => {
   const location = useLocation();
-  const { questionNumber, question } = location.state.item
+  const { questionNumber, question } = location.state.item;
   const { item, code } = location.state;
-  console.log(item, code)
+  console.log(item, code);
   const [report, setreport] = useState([]);
   const [solutionDetails, setsolutionDetails] = useState({
     roll_no: "",
@@ -43,82 +44,72 @@ const TeacherThird = () => {
     homePage();
   }, []);
   const plagReport = () => {
-    axios.post('http://127.0.0.1:5000/teacherplagreport', {
-      code,
-      questionNumber,
-    }).then(
-      (response) => {
-        var result = response.data;
-        setreport(result)
+    axios
+      .post("http://127.0.0.1:5000/teacherplagreport", {
+        code,
+        questionNumber,
+      })
+      .then(
+        (response) => {
+          var result = response.data;
+          setreport(result);
 
-        console.log(result);
-        console.log(report);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  // const getsoln = () => {
-  //   axios.post('http://127.0.0.1:5000/getsoln',{
-  //     code,
-  //     questionNumber,
-  //   }).then(
-  //     (response) => {
-  //       var result = response.data;
-  //       // setreport(result)
-
-  //       console.log(result);
-  //       // console.log(report);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
-  // useEffect(() => {
-  //     getsoln();
-  //   }, []);
+          console.log(result);
+          console.log(report);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
   return (
-    <section className="student-home">
-      <h1>{questionNumber}</h1>
-      <h2>{question}</h2>
-      <h2>{code}</h2>
-      <button>View</button>
-      <button class="scan1" onClick={plagReport}>Scan for plagiarism</button>
-      {report.length !== 0 && <div id="report" class="report">
-        <h4>Plag Report</h4>
-        <table class="table table-striped">
-          <tr class="bg-info">
-            <th>Roll1</th>
-            <th>Roll2</th>
-            <th>Simlarity_Score</th>
-          </tr>
+    <section className="teacher-assignment">
+      <div className="title2">
+        <h1 className="first">{questionNumber}</h1>
+        <h2 className="second">{code}</h2>
+      </div>
+      <div className="question2">
+        <h2>{question}</h2>
+      </div>
+      <button className="scan4" onClick={plagReport}>
+        Scan for plagiarism
+      </button>
+      {report.length !== 0 && (
+        <div id="report" className="reportteacher">
+          <h4>Plagiarism Report</h4>
+          <table className="table table-striped">
+            <tr className="bg-info">
+              <th>Roll1</th>
+              <th>Roll2</th>
+              <th>Similarity_Score</th>
+            </tr>
 
-          <tbody id="myTable">
-            {report.map((entries) => {
-              return <tr>
-                <th>{entries[0]}</th>
-                <th>{entries[1]}</th>
-                <th>{entries[2]}</th>
-              </tr>
-            })
-            }
-          </tbody>
-        </table>
-
-      </div >}
-      <div >
+            <tbody id="myTable">
+              {report.map((entries) => {
+                return (
+                  <tr>
+                    <th>{entries[0]}</th>
+                    <th>{entries[1]}</th>
+                    <th>{entries[2]}</th>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <div>
         {solnL.map((item, i) => {
-          return <div> <div> {item.roll_no}</div>
-            <div> {item.fname}</div>
-            <div> {item.solution}</div>
-          </div>
-
+          return (
+            <div className="solutionlist">
+              <div className="solutionroll"> {item.roll_no}</div>
+              <div className="solutionfname"> {item.fname}</div>
+              <div className="solutioncontent"> {item.solution}</div>
+            </div>
+          );
         })}
       </div>
-
     </section>
   );
 };

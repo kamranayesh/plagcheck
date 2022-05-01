@@ -1,9 +1,9 @@
 import React, { createContext, useReducer, useState } from "react";
+import ReactDOM from 'react-dom';
 import "bootstrap/dist/css/bootstrap.css";
 import TeacherHome from "./Components/TeacherHome";
 import TeacherSecond from "./Components/TeacherSecond";
 import Home from "./Components/Home";
-// import StudentHome from "./Components/StudentHome";
 import StudentSecond from "./Components/StudentSecond";
 import Studentthird from "./Components/Studentthird";
 import Navbar from "./Components/Navbar";
@@ -23,10 +23,10 @@ import TeacherThird from "./Components/TeacherThird";
 //1. Context API
 export const UserContext = createContext();
 function App() {
-  // const [classD, setClassD] = useState({})
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const [userData, setUserData] = useState({});
-  // const path = userData.role === "student" ? `/studenthome` : `/teacherhome`;
+
   return (
     <div>
       <BrowserRouter>
@@ -51,12 +51,6 @@ function App() {
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>
-
-      {/* <StudentHome /> */}
-      {/* <TeacherHome /> */}
-      {/* <StudentSecond /> */}
-      {/* <TeacherSecond /> */}
-      {/* <TeacherThird /> */}
     </div>
   );
 }

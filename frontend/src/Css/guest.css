@@ -75,15 +75,7 @@
   color: #004360;
   font-size: medium;
 }
-/* .icon {
-  padding: 20px;
-  display: inline-block;
-}
-.icon2 {
-  width: 200px;
-  padding: 20px;
-  display: inline-block;
-} */
+
 .details2{
   padding: 20px;
   margin: 40px;
@@ -109,18 +101,7 @@
 
   color: #6f6262;
 }
-/* .upload {
-  position: absolute;
-  width: 115px;
-  height: 35px;
-  left: 900px;
-  top: 280px;
 
-  background: url(../Images_copy/Screenshot\ 2022-03-10\ 115845.png);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-} */
-
-/* From uiverse.io by @adamgiebl */
 .upload {
 
   position: absolute;
@@ -458,4 +439,14 @@
   100% {
    background-position: 0% 50%;
   }
+ }
+
+ .loadingicon{
+   position: absolute;
+   top: 0%;
+   left:37%; 
+   /* background-color: rgba(49, 207, 162, 0.11);
+   backdrop-filter: blur(5px);  */
+ 
+
  }

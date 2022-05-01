@@ -5,8 +5,7 @@ import "../Css/card.scss";
 const AssignmentsCard = (props) => {
   const navigate = useNavigate();
   const { questionNumber, question } = props.item;
-  //  { state: { duplicateLifecycle
-  // navigate("/blog", { state: { author_name: "John Doe" } });
+ 
 
   return (
     <div
@@ -28,7 +27,6 @@ const AssignmentsCard = (props) => {
       <div className="cardBoxBody">
         <div>{question}</div>
       </div>
-      {/* <div className="cardBoxFooter"></div> */}
     </div>
   );
 };

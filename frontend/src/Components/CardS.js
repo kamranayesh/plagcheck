@@ -18,19 +18,16 @@ const CardS = (props) => {
       <div className="cardBoxHeader">
         <img
           className="cardBoxImg"
-          // url={"../Images_copy/bonbon-child-at-math-lesson-with-calculator-and-apple-1.png"}
-
-          // height=20px;
-          // src={require('../Images_copy/pablo-class.png')} height="40"
+          
           src={"https://gstatic.com/classroom/themes/img_backtoschool.jpg"}
         ></img>
         <div className="cardTitle">{title}</div>
-        <div className="cardBoxBody">
-          <div>{name}</div>
-        </div>
-        <div className="cardBoxFooter">
-          <div>{code}</div>
-        </div>
+      </div>
+      <div className="cardBoxBody">
+        <div className="cardBoxBody">{name}</div>
+      </div>
+      <div className="cardBoxFooter">
+        <div className="cardBoxFooter">{code}</div>
       </div>
     </div>
   );

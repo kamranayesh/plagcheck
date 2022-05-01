@@ -19,9 +19,6 @@ const Studentcard = (props) => {
         <div className="cardTitle2">{questionNumber}</div>
         <img
           className="cardBoxImg"
-          // url={"../Images_copy/bonbon-child-at-math-lesson-with-calculator-and-apple-1.png"}
-
-          // height=20px;
           src={require("../Images_copy/bonbon-child-at-math-lesson-with-calculator-and-apple-1.png")}
           height="40"
         ></img>

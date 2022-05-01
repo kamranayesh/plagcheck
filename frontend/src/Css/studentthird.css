@@ -1,5 +1,6 @@
 .student-assignment{
-    height: 120vh;
+    min-height: 150vh;
+    max-height: 500vh;
     align-items: center;
     justify-content: center;
     background: rgb(148,255,219);
@@ -7,6 +8,7 @@
 }
 
 .title2{
+    
     text-align: center;
     display:inline-block;
     width: 70%;
@@ -15,16 +17,21 @@
     left: 15%;
     height: 150px;
     border-radius:0px 0px 20px 20px;
+    background-image:  url(../Images_copy/bg.jpg);
+    background-position: center;
+    background-size: 700px;
 }
 .first{
     text-align: left;
     font-size: 6em;
     padding-left: 30px;
+    color: #18786b;;
 }
 .second{
     text-align: right;
     font-size: 2em;
     padding-right: 30px;
+    color: #007060;
 }
 .question{
     display:inline-block;
@@ -36,6 +43,7 @@
     height:40vh;
     border-radius:10px 10px 10px 10px;
     padding: 10px;
+    overflow: auto;
 }
 
 .choosefile2 {
@@ -209,7 +217,7 @@
    .viewsubmission{
        /* background-color:black; */
        position: absolute;
-       
+       font-size: medium;
        height: 30vh;
 
        display:inline;
@@ -217,7 +225,7 @@
        left:15%;
       
       
-       width: 70em;
+       width: 42em;
        
        border-radius:10px 10px 10px 10px;
        padding: 10px;
@@ -227,15 +235,26 @@
         /* background-color:blue; */
         position: absolute;
         
-        height: 30vh;
+        min-height: 30vh;
  
         display:inline;
         top: 98%;
-        left:63%;
+        left:60%;
        
        
-        width: 50em;
+        width: 30em;
         
         border-radius:10px 10px 10px 10px;
         padding: 10px;
+        white-space: pre-line;
+
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        font-size: medium;
+        overflow: auto;
         }
+
+       
+

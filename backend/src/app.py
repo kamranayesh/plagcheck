@@ -7,14 +7,15 @@ import language_tool_python
 import re
 
 app=Flask(__name__)
-# app.config['MONGO_URI']='mongodb://localhost/plagcheck'
+
 app.config['MONGO_URI']='mongodb+srv://kamranayesh:wowwowwow@cluster0.50yks.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongo=PyMongo(app)
 CORS(app)
 print()
 def check_plagiarism(s_vectors):
     similarity = lambda doc1, doc2: cosine_similarity([doc1, doc2])
-    plagiarism_results=[]
+    # plagiarism_results=[]
+    plagiarism_results=set()
     for student_a, text_vector_a in s_vectors:
         new_vectors =s_vectors.copy()
         current_index = new_vectors.index((student_a, text_vector_a))
@@ -22,12 +23,16 @@ def check_plagiarism(s_vectors):
         for student_b , text_vector_b in new_vectors:
             sim_score = similarity(text_vector_a, text_vector_b)[0][1]
             student_pair = sorted((student_a, student_b))
-            score=[student_pair[0], student_pair[1],round(sim_score*100,2)]
-            plagiarism_results.append(score)
-    return plagiarism_results
+            score=(student_pair[0], student_pair[1],round(sim_score*100,2))
+            # plagiarism_results.append(score)
+            plagiarism_results.add(score)
+    def by_sim(ele):
+        return ele[2]
+    return list(sorted(plagiarism_results, key=by_sim, reverse=True))
 
 def check_gram(txt):
-    tool = language_tool_python.LanguageTool('en-US')
+    # tool = language_tool_python.LanguageTool('en-US')
+    tool = language_tool_python.LanguageToolPublicAPI('en-US')
     i = 0
     myText = open(r'temp.txt','w')
     myText.write(txt)
@@ -35,9 +40,9 @@ def check_gram(txt):
     myText.close
     myText= open(r'temp.txt', 'r')
     for line in myText:
-        matches = tool.check(line)
+        matches=tool.check(line)
         i = i + len(matches)	
-        pass
+        # pass   
     myText.close
     mis.append("No. of mistakes found in document is : ")
     mis.append(str(i))

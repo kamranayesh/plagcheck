@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 public/favicon.ico
 src/App.css
-src/Components/StudentHome.js
 public/logo512.png
 public/logo192.png
 public/favicon.ico

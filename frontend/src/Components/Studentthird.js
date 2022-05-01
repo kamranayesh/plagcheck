@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../Css/studentthird.css";
 import axios from "axios";
+import Guestpopup from "./Guestpopup";
 
 const Studentthird = (props) => {
   console.log(props.userData);
@@ -13,6 +14,10 @@ const Studentthird = (props) => {
     fname: "",
     solution: ``,
   });
+  const [buttonPopup, setbuttonPopup] = useState(0);
+  const closePopup = () => {
+    setbuttonPopup(0);
+  };
   const [report, setreport] = useState([]);
   const [sub, setsub] = useState(``);
 
@@ -48,7 +53,6 @@ const Studentthird = (props) => {
       console.log(text);
       alert(text);
       setassign({ fname: mf.files.item(0).name, solution: text });
-      // addGuest()
     };
     reader.readAsText(e.target.files[0]);
   };
@@ -59,7 +63,7 @@ const Studentthird = (props) => {
     var mf = document.getElementById("myfile");
     if (mf) {
       return (
-        <div class="details">
+        <div className="details">
           <h2>File Details:</h2>
 
           <p>File Name: {mf.files.item(0).name}</p>
@@ -73,7 +77,7 @@ const Studentthird = (props) => {
       );
     } else {
       return (
-        <div class="details">
+        <div className="details">
           <br />
           <h4>Choose before Pressing the Upload button</h4>
         </div>
@@ -82,14 +86,14 @@ const Studentthird = (props) => {
   };
   const printReportGramm = () => {
     return (
-      <div class="report2">
+      <div className="grammarreport">
         <h4>Grammar Report</h4>
         {report.join("\n")}
-        {/* {reportGram.map(report => <div>{report.name}</div>)} */}
       </div>
     );
   };
   const grammReport = () => {
+    setbuttonPopup(1);
     axios
       .post("http://127.0.0.1:5000/studentgram", {
         code: code,
@@ -139,29 +143,28 @@ const Studentthird = (props) => {
   };
   return (
     <section className="student-assignment">
-      <div class="title2">
-        <h1 class="first">{questionNumber}</h1>
-        <h2 class="second">{code}</h2>
+      <div className="title2">
+        <h1 className="first">{questionNumber}</h1>
+        <h2 className="second">{code}</h2>
       </div>
-      <div class="question">
+      <div className="question">
         <h2>{question}</h2>
       </div>
 
-      <button class="viewbutton" onClick={viewSub}>
+      <button className="viewbutton" onClick={viewSub}>
         View Submission
       </button>
-      {/* <input type="file" onChange={onFileChange()} class="myfile" id="myfile" name="myfile" /> */}
-      <div class="choosefile2">
+      <div className="choosefile2">
         <input
           type="file"
           onChange={(e) => showFile(e)}
-          class="myfile2"
+          className="myfile2"
           id="myfile"
           name="myfile"
         />
-        <button onClick={(e) => onUpload(e)} class="upload2">
-          <div class="svg-wrapper-1">
-            <div class="svg-wrapper">
+        <button onClick={(e) => onUpload(e)} className="upload2">
+          <div className="svg-wrapper-1">
+            <div className="svg-wrapper">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -178,17 +181,21 @@ const Studentthird = (props) => {
           </div>
           <span>Upload</span>
         </button>
-        {/* {fileData()} */}
-        <div class="details">{fileData()}</div>
+        <div className="details">{assign.fname != "" && fileData()}</div>
       </div>
-      <button class="scan3" onClick={grammReport}>
+      <button className="scan3" onClick={grammReport}>
         Scan for gramatical errors
       </button>
-      {/* {reportGram?.length!==0&&printReportGramm()} */}
-      <div class="grammarreport">
-        {report.length !== 0 && printReportGramm()}
+      <div className="viewsubmission">{sub.length !== 0 && printsub()}</div>
+      <div>
+        {buttonPopup != 0 && (
+          <Guestpopup
+            closePopup={closePopup}
+            report={report}
+            buttonPopup={buttonPopup}
+          />
+        )}
       </div>
-      <div class="viewsubmission">{sub.length !== 0 && printsub()}</div>
     </section>
   );
 };

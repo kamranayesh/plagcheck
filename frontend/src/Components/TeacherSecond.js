@@ -15,29 +15,6 @@ const TeacherSecond = () => {
   const [assignL, setassignL] = useState([]);
   const [submit, setSubmit] = useState(false);
 
-  // const postAssg = async (e) => {
-  //   e.preventDefault();
-
-  //   const res = await fetch("/teacherhome/classes/assignment", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       name,
-
-  //     }),
-  //   });
-  // const data = await res.json();
-  // console.log(data);
-
-  // if (res.status === 422 || !data) {
-  //   window.alert("Invalid Registration");
-  // } else {
-  //   window.alert("Successful");
-  //   navigate("/login");
-  // }
-
   let n, value;
   const handleInputs = (e) => {
     n = e.target.name;
@@ -46,7 +23,7 @@ const TeacherSecond = () => {
     setassignDetails({ ...assignDetails, [n]: value });
   };
 
-  //Registering the class created by user
+  //Registering the assignment created by user
   const postData = async (e) => {
     e.preventDefault();
     const { questionNumber, question } = assignDetails;
@@ -75,7 +52,7 @@ const TeacherSecond = () => {
     }
   };
 
-  //Fetching the assignment details of respective user
+  //Fetching the assignment details
   const homePage = async () => {
     try {
       const res = await fetch("/assignmentdetails", {
@@ -106,7 +83,7 @@ const TeacherSecond = () => {
           onClick={() => {
             setSubmit(true);
           }}
-          class="cssbuttons-io-button"
+          className="cssbuttons-io-button"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +118,7 @@ const TeacherSecond = () => {
               <b>Question</b>
             </label>
             <textarea
-              class="inputquestion2"
+              className="inputquestion2"
               type="text"
               onChange={handleInputs}
               placeholder="Enter Question"

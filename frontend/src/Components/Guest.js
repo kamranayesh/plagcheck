@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import { useState, useEffect } from "react";
 import "../Css/guest.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Guestpopup from "./Guestpopup";
+import loadingIcon from "../Images_copy/loading.svg";
+
 class MyComponent extends Component {
   state = {
     // Initially, no file is selected
@@ -13,9 +17,14 @@ class MyComponent extends Component {
       fname: "",
       ginput: ``,
       report: [],
-      reportGram: [],
+      buttonPopup: 0,
+      loading: false,
     };
   }
+
+  closePopup = () => {
+    this.setState({ buttonPopup: 0 });
+  };
 
   addGuest = () => {
     axios.post("http://127.0.0.1:5000/guest", {
@@ -25,14 +34,14 @@ class MyComponent extends Component {
   };
   showdiv = () => {
     this.plagReport();
-    // document.getElementById("report").style.display = 'auto';
+    
   };
   plagReport = () => {
     axios.get("http://127.0.0.1:5000/guestreport").then(
       (response) => {
         var result = response.data;
         this.setState({ report: result });
-
+        this.setState({ buttonPopup: 2 });
         console.log(result);
       },
       (error) => {
@@ -40,24 +49,24 @@ class MyComponent extends Component {
       }
     );
 
-    // document.getElementById("report").style.display = 'auto';
-    // this.buildTable(this.state.report)
   };
   printReportGramm = () => {
     return (
-      <div class="report2">
+      <div className="report2">
         <h4>Grammar Report</h4>
         {this.state.reportGram.join("\n")}
       </div>
     );
   };
   grammReport = () => {
+    this.setState({ loading: true });
     axios.get("http://127.0.0.1:5000/guestgram").then(
       (response) => {
         var result = response.data;
-        this.setState({ reportGram: result });
-
-        console.log(result.join("\n"));
+        this.setState({ report: result });
+        this.setState({ buttonPopup: 1 });
+        console.log(result);
+        this.setState({ loading: false });
       },
       (error) => {
         console.log(error);
@@ -89,7 +98,7 @@ class MyComponent extends Component {
     reader.onload = async (e) => {
       const text = e.target.result;
       console.log(text);
-      alert(text);
+      alert("Upload Successful");
       this.setState({ fname: this.state.selectedFile.name });
       this.setState({ ginput: text });
       this.addGuest();
@@ -100,7 +109,7 @@ class MyComponent extends Component {
   fileData = () => {
     if (this.state.selectedFile) {
       return (
-        <div class="details2">
+        <div className="details2">
           <h2>File Details:</h2>
 
           <p>File Name: {this.state.selectedFile.name}</p>
@@ -115,7 +124,7 @@ class MyComponent extends Component {
       );
     } else {
       return (
-        <div class="details2">
+        <div className="details2">
           <br />
           <h4>Choose file before Pressing the Upload button</h4>
         </div>
@@ -125,13 +134,11 @@ class MyComponent extends Component {
 
   render() {
     return (
-      <div class="guest-home">
-        {/* <img class="icon"  onClick={()=>{this.props.navigate("/")}} src={require('../Images_copy/Plag_Check.png')} height="150" ></img> */}
-        {/* <img class="icon2" onClick={this.deleteGuest} src={require('../Images_copy/Plag_Check.png')} height="150" ></img>
-        <h3 class="icon">Ｐｌａｇ Ｃｈｅｃｋ</h3> */}
-        <button class="back" onClick={this.deleteGuest}>
+      <div className="guest-home">
+        
+        <button className="back" onClick={this.deleteGuest}>
           <svg
-            class="back2"
+            className="back2"
             height="16"
             width="16"
             xmlns="http://www.w3.org/2000/svg"
@@ -143,59 +150,38 @@ class MyComponent extends Component {
           <span>Back</span>
         </button>
 
-        {/* <input class="type-box" type="text" /> */}
-        {/* <textarea class="type-box" placeholder="Enter Text or upload file ..." name="Text1" cols="40" rows="5"></textarea> */}
-        <button class="scan1" onClick={this.showdiv}>
+        
+        <button className="scan1" onClick={this.showdiv}>
           Scan for plagiarism
         </button>
-        {this?.state?.report.length !== 0 && (
-          <div id="report" class="report">
-            <h4>Plag Report</h4>
-            <table class="table table-striped">
-              <tr class="bg-info">
-                <th>File1</th>
-                <th>File2</th>
-                <th>Simlarity_Score</th>
-              </tr>
 
-              <tbody id="myTable">
-                {this?.state?.report.map((entries) => {
-                  return (
-                    <tr>
-                      <th>{entries[0]}</th>
-                      <th>{entries[1]}</th>
-                      <th>{entries[2]}</th>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-        <button class="scan2" onClick={this.grammReport}>
-          Scan for gramatical errors
+        <button className="scan2" onClick={this.grammReport}>
+          {this.state.loading ? (
+            <img className="loadingicon" src={loadingIcon} />
+          ) : (
+            "Scan for gramatical errors"
+          )}
         </button>
         <img
-          class="guest-image"
+          className="guest-image"
           src={require("../Images_copy/plagiarism-concept-with-man-stealing-ideas_23-2148422590.png")}
           height="200"
           width="150"
         ></img>
         <div>
-          {/* <label for="myfile" class="choose">Select a file:</label> */}
+          
           <input
             type="file"
             onChange={this.onFileChange}
-            class="myfile"
+            className="myfile"
             id="myfile"
             name="myfile"
             multiple
           />
-          {/* <input type="file" onChange={(e) => this.showFile(e)} id="myfile" name="myfile" multiple/> */}
-          {/* <button onClick={this.onFileUpload} class="upload"></button> */}
+          
           <button onClick={(e) => this.showFile(e)} class="upload">
-            <div class="svg-wrapper-1">
-              <div class="svg-wrapper">
+            <div className="svg-wrapper-1">
+              <div className="svg-wrapper">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -212,12 +198,20 @@ class MyComponent extends Component {
             </div>
             <span>Upload</span>
           </button>
-          {/* <button onClick={this.addGuest()} >UPload!!!!</button> */}
-          {/* {this.addGuest()} */}
+
         </div>
         {this.fileData()}
-        {/* {this.printReportPlag()} */}
-        {this?.state?.reportGram.length !== 0 && this.printReportGramm()}
+
+        <div>
+          
+          {this.state.buttonPopup != 0 && (
+            <Guestpopup
+              closePopup={this.closePopup}
+              report={this?.state?.report}
+              buttonPopup={this.state.buttonPopup}
+            />
+          )}
+        </div>
       </div>
     );
   }

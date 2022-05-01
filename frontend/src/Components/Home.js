@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <section className="home-section">
       <p>Welcome to </p>
-      <h1 class="title">PlagCheck</h1>
+      <h1 className="title">PlagCheck</h1>
       <Button class="guest" onClick={clickHandler}>
         Use as Guest
       </Button>
